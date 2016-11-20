@@ -73,6 +73,9 @@ nav#toc a.level3, nav#toc a.level4, nav#toc a.level5, nav#toc a.level6 {
  font-size: 85%;
  padding-left: 2em;
 }
+nav#toc a.level4 {
+ padding-left: 3em;
+}
 
 nav#pagination {
  border-color: rgb(210,210,210);
@@ -89,6 +92,12 @@ nav#pagination a { border: 0; display: table-cell; width: 50%; padding: 1.2em 0 
 nav#pagination .next { text-align: right }
 nav#pagination a.prev:link:before { content: "‹ " }
 nav#pagination a.next:link:after { content: " ›" }
+
+td { border-bottom: solid}
+th {
+ background-color: rgb(69,134,84);
+ color: white;
+}
 
 footer {
  margin-top: 6em;

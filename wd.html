@@ -66,11 +66,19 @@
  This section explains the basic requirements
  for getting you started with the different browsers.
 
-<h3>Adding WebDriver to your PATH</h3>
-<p>By adding WebDriver's binaries to your system's path, you won't need to specify where the binary to start the browser during your tests.
-<p>From the command line on Windows: <pre><code>setx /m path "%path%;C:\WebDriver\bin\"</code></pre>
-
-
+<h3>Adding Executables to your PATH</h3>
+<p>Most drivers require an extra executable for Selenium to communicate with the browser. You can manually specify where the executable lives before starting WebDriver, but this can make your tests less portable, as the executables will need to be in the same place on every machine, or included within your test code repository.
+<p>By adding a folder containing WebDriver's binaries to your system's path, Selenium will be able to locate the additional binaries.
+<h4>On Windows</h4>
+<ul>
+    <li>Create a directory to place the executables in, like <em>C:\WebDriver\bin</em></li>
+    <li>Open a new cmd window as administrator and the run the following command to permanently add the directory to your path for all users on your machine:<pre><code>setx /m path "%path%;C:\WebDriver\bin\"</code></pre></li>
+    <li>Close all cmd windows and open a new one.  You can test by trying to run one of the binaries - e.g: <pre><code>chromedriver -v</code></pre>If that worked, you should be all set!</li>
+</ul>
+<h4>On OS X / Linux</h4>
+<ul>
+    <li>In terminal on Linux: <pre><code>export PATH=$PATH:/path/to/dir >> ~/.profile</code></pre></li>
+</ul>
 
 <h3>Quick Reference</h3>
 
@@ -189,7 +197,7 @@ Updates to Edge are bundled with major Windows updates,
 so you'll need to download a binary which matches the build number of your currently installed build of Windows.
 The <a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/">Edge Developer site</a>
 contains links to all the available binaries. Bugs against the EdgeDriver implementation can be raised with
-<a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/?page=1&q=webdriver">Microsoft</a>.
+    <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/?page=1&q=webdriver">Microsoft</a>.  If you'd like to run tests against Edge, but aren't running Windows 10, Microsoft offer free VMs for testers on the <a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/"> Edge Developer site</a>.
 
 <pre><code class=java>WebDriver driver = new EdgeDriver();</code></pre>
 
@@ -200,12 +208,18 @@ contains links to all the available binaries. Bugs against the EdgeDriver implem
 
 <h4>Internet Explorer</h4>
 
-<p>Internet Explorer was Microsoft's default browser until Windows 10, although it is still included in Windows 10.
- The Selenium project aims to support the same releases
+<p>Internet Explorer was Microsoft's default browser until Windows 10, although it is still included in Windows 10. Internet Explorer Driver is the only driver The Selenium project aims to support the same releases
  <a href="https://support.microsoft.com/en-gb/help/17454/lifecycle-support-policy-faq-internet-explorer">
-  Microsoft considers current</a>.
+  Microsoft considers current</a>. Older releases may work, but will be unsupported.
+<p>While the Selenium project provides binaries for both the 32-bit and 64-bit versions of Internet Explorer, there are some <a href="http://jimevansmusic.blogspot.co.uk/2014/09/screenshots-sendkeys-and-sixty-four.html">limitations</a> with Internet Explorer 10 & 11 with the 64-bit driver, but using the 32-bit driver continues to work well. It should be noted that as Internet Explorer preferences are saved against the logged in user's account, some <a href="https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration">additional setup is required</a>.
 
 <pre><code class=java>WebDriver driver = new InternetExplorerDriver();</code></pre>
+
+<p>If Internet Explorer driver is not present in your path, you can set the path using the following line:
+
+<pre><code class=java>System.setProperty("webdriver.ie.driver", "/path/to/iedriver");</code></pre>
+
+Microsoft also offer a WedDriver binary for <a href="https://www.microsoft.com/en-gb/download/details.aspx?id=44069">Internet Explorer 11 on Windows 7 &amp; 8.1</a>. It has not been updated since 2014 and is based of a draft version of the W3 specification. <a href="http://jimevansmusic.blogspot.co.uk/2014/09/using-internet-explorer-webdriver.html">Jim Evans</a> has an excellent writeup on Microsoft's implementation.
 
 
 <h4>Opera (Presto-based)</h4>
@@ -253,12 +267,11 @@ driver = Selenium::WebDriver.for :opera</code></pre>
 <ol>
  <li>Enable the Developer menu from Safari preferences.</li>
  <li>Check the <em>Allow Remote Automation</em> option from with the Develop menu.</li>
- <li>Run <code>/usr/bin/safaridriver -p 1337</code> from the terminal for the first time
-  and type your password to authorise WebDriver.</li>
+ <li>Run <code>/usr/bin/safaridriver -p 1337</code> from the terminal for the first time and type your password at the prompt to authorise WebDriver.</li>
 </ol>
 
 <p>Recent releases of Safari are only Starting with Safari 10, Apple now provide support for WebDriver within Safari.
- Those looking to automate Safari on iOS should look to the <a href="http://appium.io/">Appium project</a>. Whilst Safari was available for Windows, Apple have since dropped support,
+ Those looking to automate Safari on iOS should look to the <a href="http://appium.io/">Appium project</a>. Whilst Safari was available for Windows, Apple have since dropped support.
 
 
 <h3>Headless Browsers</h3>
@@ -267,11 +280,12 @@ driver = Selenium::WebDriver.for :opera</code></pre>
 
 <h4>HtmlUnit</h4>
 <p>HtmlUnit Driver is considered to be the fastest of the headless drivers. It is implemented in pure Java.
-Javascript is disabled by default, but can enabled.  It supports some emulation of other browsers.
+Javascript is disabled by default, but can enabled.  It supports some limited emulation of other browsers.
  HtmlUnit used to be included in the Selenium project, but has since been made optional.
  To use it, you will need to <a href="https://github.com/SeleniumHQ/htmlunit-driver#download-and-installation">include it in your project</a>.
 
 <h4>PhantomJS</h4>
+<p>PhantomJS is a headless driver built on WebKit, although it uses a custom javascript implementation.</p>
 
 
 <h2>Browser Launching and Manipulation</h2>

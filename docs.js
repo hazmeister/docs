@@ -164,11 +164,61 @@ function highlightCode() {
 			var blocks = $("pre code");
 			for (var i = 0; i < blocks.length; i++) {
 				hljs.highlightBlock(blocks[i]);
+				addLanguageSelect(blocks[i]);
 			}
 		}
 		document.head.appendChild(script);
 	}
 	document.head.appendChild(link);
+}
+
+function myLang() {
+    if (!localStorage.language) {
+        localStorage.language = "java";
+    }
+    return localStorage.language;
+}
+
+var BINDINGS = [
+	{ "pretty" : ".NET",        "safe" : "dot-net" },
+	{ "pretty" : "Java",        "safe" : "java"},
+	{ "pretty" : "JavaScript",  "safe" : "javascript"},
+	{ "pretty" : "Python",      "safe" : "python"},
+	{ "pretty" : "Ruby",        "safe" : "ruby"}
+];
+
+function addLanguageSelect(codeBlock) {
+    var select = document.createElement('select');
+    select.setAttribute('class', 'language');
+    select.addEventListener("change", showAndHide(codeBlock));
+    for(var i = 0; i<BINDINGS.length; i++) {
+        var opt = document.createElement('option');
+        opt.value= BINDINGS[i].safe;
+        opt.innerHTML = BINDINGS[i].pretty;
+        select.appendChild(opt);
+        if(BINDINGS[i].safe === myLang()) {
+        	opt.setAttribute('selected', 'selected');
+		}
+    }
+    codeBlock.appendChild(select);
+}
+
+function showAndHide(codeBlock) {
+	var displayStyle;
+	var isBinding = codeBlock.classList.contains("binding");
+	isBinding = true;
+	var desiredLang = codeBlock.classList.contains(myLang());
+	console.log(codeBlock.classList);
+    console.log(desiredLang);
+    console.log(isBinding);
+	if(desiredLang && isBinding) {
+		//TODO: add select
+		displayStyle = "block";
+	} else {
+		//TODO: remove select
+		displayStyle = "none";
+	}
+	codeBlock.parentNode.style.display = displayStyle;
 }
 
 /**

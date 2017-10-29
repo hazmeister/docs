@@ -200,14 +200,14 @@ Only local connections are allowed.</pre>
 
 <p>To instantiate a Chrome/Chromium session, you can do the following:
 
-<pre><code class=java>WebDriver driver = new ChromeDriver();</code></pre>
+<pre><code class=java binding>WebDriver driver = new ChromeDriver();</code></pre>
 
 <p>Remember that you have to set the path to the chromedriver executable.
  This is possible using the following line:
 
-<pre><code class=java>System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");</code></pre>
+<pre><code class=java binding>System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");</code></pre>
 
-<pre><code class=rb>require "selenium-webdriver"
+<pre><code class=rb binding>require "selenium-webdriver"
 driver = Selenium::WebDriver.for :chrome</code></pre>
 
 <p>The chromedriver is implemented as a WebDriver remote server
